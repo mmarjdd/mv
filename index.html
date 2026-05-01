@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>V & M · The Construction of Us</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Serif+Display:ital@0;1&display=swap');
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:#f7faf5; --bg2:#eef5ea; --surface:#ffffff; --surface2:#f2f8ee; --surface3:#e8f3e2;
+      --border:rgba(60,110,50,0.10); --border-med:rgba(60,110,50,0.20);
+      --g100:#c8e6b8; --g200:#97c878; --g300:#6aaa44; --g400:#4e8c2e; --g500:#386820; --g600:#274d14;
+      --text:#1c2e14; --text-sub:#4a6b38; --text-muted:#8aaa78;
+    }
+    body { margin:0; padding:0; background:var(--bg); color:var(--text); }
+    .dash { font-family:'DM Sans',sans-serif; min-height:100vh; width:100%; max-width:960px; margin:0 auto; background:var(--bg); }
+
+```
+/* ── HERO ── */
+.hero { background:linear-gradient(160deg,#ffffff 0%,#eef7e8 55%,#ddf0d0 100%); border-bottom:1px solid var(--border); padding:36px 32px 32px; position:relative; overflow:hidden; }
+.hero::before { content:''; position:absolute; top:-80px; right:-80px; width:320px; height:320px; border-radius:50%; background:radial-gradient(circle,rgba(106,170,68,0.08) 0%,transparent 70%); pointer-events:none; }
+.hero::after { content:''; position:absolute; bottom:-40px; left:20px; width:200px; height:200px; border-radius:50%; background:radial-gradient(circle,rgba(106,170,68,0.05) 0%,transparent 70%); pointer-events:none; }
+.hero-inner { display:flex; align-items:flex-start; justify-content:space-between; gap:24px; }
+.hero-left { flex:1; }
+.hero-label { font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--text-muted); font-weight:500; margin-bottom:10px; }
+.hero-name { font-family:'DM Serif Display',serif; font-size:clamp(30px,5vw,48px); color:var(--text); line-height:1.05; white-space:nowrap; }
+.hero-name em { color:var(--g300); font-style:italic; }
+.hero-partners { margin-top:18px; display:flex; flex-direction:column; gap:7px; }
+.partner-row { display:flex; align-items:center; gap:9px; }
+.partner-dot { width:7px; height:7px; border-radius:50%; background:var(--g300); flex-shrink:0; }
+.partner-name { font-size:11.5px; color:var(--text-sub); }
+.partner-tagline { font-size:10px; color:var(--text-muted); font-style:italic; margin-top:4px; padding-left:16px; }
+.hero-counter { flex-shrink:0; background:var(--g400); border-radius:22px; padding:24px 36px; text-align:center; box-shadow:0 8px 32px rgba(78,140,46,0.20),0 2px 8px rgba(78,140,46,0.10); position:relative; z-index:1; }
+.hero-counter .days { font-family:'DM Serif Display',serif; font-size:clamp(72px,12vw,108px); line-height:1; color:#fff; letter-spacing:-3px; }
+.hero-counter .days-label { font-size:10px; color:rgba(255,255,255,0.72); text-transform:uppercase; letter-spacing:0.14em; margin-top:6px; }
+.hero-counter .days-sub { font-size:11px; color:rgba(255,255,255,0.5); font-style:italic; margin-top:3px; }
+
+/* ── STATS ── */
+.key-stats { display:grid; grid-template-columns:repeat(4,1fr); border-bottom:1px solid var(--border); background:var(--surface); }
+.kstat { padding:16px 12px; text-align:center; border-right:1px solid var(--border); }
+.kstat:last-child { border-right:none; }
+.kstat-val { font-family:'DM Serif Display',serif; font-size:28px; color:var(--g400); }
+.kstat-label { font-size:9px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.1em; margin-top:2px; }
+
+/* ── BODY ── */
+.body { padding:20px; display:flex; flex-direction:column; gap:16px; }
+
+/* ── TABS ── */
+.nav-tabs { display:flex; gap:4px; background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:4px; }
+.nav-tab { flex:1; background:none; border:none; padding:8px 4px; font-size:11px; color:var(--text-muted); cursor:pointer; border-radius:8px; font-family:'DM Sans',sans-serif; font-weight:500; transition:all 0.15s; }
+.nav-tab.active { background:var(--g400); color:#fff; }
+.tab-content { display:none; }
+.tab-content.active { display:block; }
+
+/* ── CARDS ── */
+.card { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:20px; }
+.card-title { font-size:12px; font-weight:600; color:var(--text); margin-bottom:16px; display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.card-title-sub { font-size:10px; color:var(--text-muted); font-weight:400; }
+
+/* ── OVERVIEW GRID — fixed spacing ── */
+.overview-top { display:grid; grid-template-columns:1.5fr 1fr; gap:16px; margin-bottom:16px; }
+.overview-bottom { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+
+/* ── PROGRESS BARS ── */
+.phase-bar { margin-bottom:14px; }
+.phase-bar:last-child { margin-bottom:0; }
+.pb-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:5px; }
+.pb-month { font-size:11.5px; font-weight:500; color:var(--text); }
+.pb-pct { font-size:10px; color:var(--text-muted); }
+.pb-track { height:7px; background:var(--surface3); border-radius:10px; overflow:hidden; }
+.pb-fill { height:100%; border-radius:10px; background:linear-gradient(90deg,var(--g400),var(--g200)); }
+
+/* ── DONUT ── */
+.activity-donut-wrap { display:flex; align-items:center; gap:16px; }
+.activity-legend { display:flex; flex-direction:column; gap:8px; flex:1; }
+.act-leg-item { display:flex; align-items:center; gap:8px; font-size:11.5px; color:var(--text-sub); }
+.act-dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+
+/* ── ENGAGEMENT ── */
+.engagement-month { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.engagement-month:last-child { margin-bottom:0; }
+.eng-label { font-size:11px; color:var(--text-sub); min-width:30px; font-weight:500; }
+.eng-bar { flex:1; height:18px; background:var(--surface3); border-radius:6px; overflow:hidden; }
+.eng-fill { height:100%; border-radius:6px; background:linear-gradient(90deg,var(--g400),var(--g200)); }
+.eng-count { font-size:11px; font-weight:600; color:var(--text); min-width:22px; text-align:right; }
+
+/* ── PHASES ── */
+.phases-list { display:flex; flex-direction:column; }
+.phase-item { display:flex; gap:10px; }
+.phase-line-col { display:flex; flex-direction:column; align-items:center; }
+.phase-dot { width:9px; height:9px; border-radius:50%; background:var(--g300); border:2px solid var(--g100); flex-shrink:0; margin-top:3px; }
+.phase-connector { width:1px; background:var(--g100); flex:1; min-height:14px; }
+.phase-content { padding-bottom:12px; flex:1; }
+.phase-tag { font-size:9px; text-transform:uppercase; letter-spacing:0.1em; color:var(--g400); font-weight:600; margin-bottom:1px; }
+.phase-name { font-size:11px; font-weight:500; color:var(--text); margin-bottom:2px; }
+.phase-items { font-size:10px; color:var(--text-sub); line-height:1.6; }
+.phase-items span { display:block; }
+.phase-items span::before { content:'· '; color:var(--g300); }
+
+/* ── LOG ── */
+.log-section { max-height:500px; overflow-y:auto; }
+.log-section::-webkit-scrollbar { width:3px; }
+.log-section::-webkit-scrollbar-thumb { background:var(--g100); border-radius:4px; }
+.log-item { display:flex; gap:12px; padding:11px 0; border-bottom:1px solid var(--border); }
+.log-item:last-child { border-bottom:none; }
+.log-num { font-size:9px; color:var(--text-muted); font-weight:600; min-width:22px; padding-top:2px; }
+.log-line { display:flex; flex-direction:column; gap:2px; flex:1; }
+.log-date { font-size:9px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.08em; }
+.log-entry { font-size:12px; color:var(--text); line-height:1.45; }
+.log-cat { display:inline-block; font-size:8px; text-transform:uppercase; letter-spacing:0.08em; font-weight:600; padding:2px 7px; border-radius:10px; margin-top:3px; }
+.cat-Dates { background:#e2f5d8; color:#356820; }
+.cat-Family { background:#d8f5ef; color:#1a6e58; }
+.cat-Trips { background:#d8e8f8; color:#1a4e8e; }
+.cat-Work { background:#f8f0d8; color:#7a5a18; }
+.cat-Leisure { background:#f0d8f8; color:#6a2e8e; }
+
+/* ── GALLERY ── */
+.photos-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+.photo-month { margin-bottom:22px; }
+.photo-month:last-child { margin-bottom:0; }
+.photo-month-label { font-size:10px; text-transform:uppercase; letter-spacing:0.12em; color:var(--text-muted); font-weight:600; margin-bottom:10px; padding-bottom:6px; border-bottom:1px solid var(--border); }
+.photo-slot { aspect-ratio:1; border-radius:10px; background:var(--surface2); border:1.5px dashed var(--border-med); display:flex; align-items:center; justify-content:center; cursor:pointer; position:relative; overflow:hidden; transition:border-color 0.2s; }
+.photo-slot:hover { border-color:var(--g300); }
+.photo-slot img { width:100%; height:100%; object-fit:cover; border-radius:8px; display:none; }
+.photo-slot.has-photo { border-style:solid; border-color:var(--border); }
+.photo-slot.has-photo img { display:block; }
+.photo-slot.has-photo .add-icon { display:none; }
+.add-icon { display:flex; flex-direction:column; align-items:center; gap:4px; }
+.add-icon svg { width:18px; height:18px; color:var(--g200); }
+.add-icon span { font-size:8px; color:var(--text-muted); text-align:center; line-height:1.3; }
+.photo-remove { position:absolute; top:4px; right:4px; background:rgba(0,0,0,0.45); border:none; border-radius:50%; width:18px; height:18px; color:#fff; font-size:13px; cursor:pointer; display:none; align-items:center; justify-content:center; }
+.photo-slot.has-photo:hover .photo-remove { display:flex; }
+.edit-mode-bar { display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; }
+.edit-toggle { background:var(--g400); color:#fff; border:none; border-radius:20px; padding:6px 16px; font-size:11px; font-family:'DM Sans',sans-serif; cursor:pointer; font-weight:500; transition:background 0.15s; }
+.edit-toggle:hover { background:var(--g300); }
+.edit-mode-indicator { font-size:10px; color:var(--text-muted); font-style:italic; }
+.add-month-btn { background:none; border:1.5px dashed var(--border-med); border-radius:8px; padding:8px; font-size:10px; color:var(--text-muted); cursor:pointer; font-family:'DM Sans',sans-serif; display:flex; align-items:center; gap:6px; width:100%; justify-content:center; margin-top:8px; }
+.add-month-btn:hover { border-color:var(--g300); color:var(--g400); }
+
+/* ── GDRIVE SETUP ── */
+.gdrive-setup { background:var(--surface2); border:1px solid var(--border); border-radius:12px; padding:16px; margin-bottom:16px; }
+.gdrive-setup-title { font-size:11px; font-weight:600; color:var(--text); margin-bottom:6px; display:flex; align-items:center; gap:6px; }
+.gdrive-setup-desc { font-size:10.5px; color:var(--text-muted); line-height:1.6; margin-bottom:12px; }
+.gdrive-setup-desc a { color:var(--g400); text-decoration:none; }
+.gdrive-setup-desc a:hover { text-decoration:underline; }
+.gdrive-input-row { display:flex; gap:8px; align-items:center; }
+.gdrive-input { flex:1; border:1px solid var(--border-med); border-radius:8px; padding:8px 12px; font-size:11px; font-family:'DM Sans',sans-serif; background:var(--surface); color:var(--text); outline:none; }
+.gdrive-input:focus { border-color:var(--g300); }
+.gdrive-btn { background:var(--g400); color:#fff; border:none; border-radius:8px; padding:8px 14px; font-size:11px; font-family:'DM Sans',sans-serif; font-weight:500; cursor:pointer; white-space:nowrap; }
+.gdrive-btn:hover { background:var(--g300); }
+.gdrive-btn.secondary { background:none; border:1px solid var(--border-med); color:var(--text-muted); }
+.gdrive-btn.secondary:hover { border-color:var(--g300); color:var(--g400); background:none; }
+.gdrive-status { font-size:10px; color:var(--text-muted); font-style:italic; margin-top:8px; min-height:14px; }
+.gdrive-photos-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:12px; }
+.gdrive-photo { aspect-ratio:1; border-radius:8px; overflow:hidden; background:var(--surface3); position:relative; }
+.gdrive-photo img { width:100%; height:100%; object-fit:cover; display:block; }
+.gdrive-photo-name { position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,0.5); color:#fff; font-size:8px; padding:3px 5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.gdrive-section-label { font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-muted); font-weight:600; margin:14px 0 8px; padding-bottom:5px; border-bottom:1px solid var(--border); }
+.gdrive-tabs { display:flex; gap:4px; margin-bottom:14px; }
+.gdrive-tab { background:none; border:1px solid var(--border); border-radius:8px; padding:5px 12px; font-size:10px; font-family:'DM Sans',sans-serif; color:var(--text-muted); cursor:pointer; }
+.gdrive-tab.active { background:var(--g400); color:#fff; border-color:var(--g400); }
+
+/* ── CONTRACT BTN ── */
+.contract-btn { width:100%; background:linear-gradient(135deg,var(--g500),var(--g300)); color:#fff; border:none; border-radius:14px; padding:22px; font-family:'DM Serif Display',serif; font-size:20px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px; letter-spacing:0.02em; transition:opacity 0.2s; box-shadow:0 4px 20px rgba(78,140,46,0.2); }
+.contract-btn:hover { opacity:0.92; }
+.contract-btn-sub { font-family:'DM Sans',sans-serif; font-size:11px; opacity:0.75; display:block; margin-top:2px; font-style:italic; }
+
+/* ── CONTRACT OVERLAY ── */
+.contract-overlay { display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(20,40,14,0.6); z-index:1000; align-items:flex-start; justify-content:center; padding:20px; overflow-y:auto; backdrop-filter:blur(4px); }
+.contract-overlay.open { display:flex; }
+.contract-modal { background:#fff; border:1px solid var(--border-med); border-radius:20px; max-width:680px; width:100%; margin:auto; }
+.contract-header { background:linear-gradient(135deg,var(--g500),var(--g300)); padding:28px 28px 22px; border-radius:20px 20px 0 0; position:sticky; top:0; z-index:2; }
+.contract-header-title { font-family:'DM Serif Display',serif; font-size:20px; color:#fff; }
+.contract-header-sub { font-size:11px; color:rgba(255,255,255,0.7); margin-top:3px; font-style:italic; }
+.contract-close { position:absolute; top:16px; right:16px; background:rgba(255,255,255,0.18); border:none; border-radius:50%; width:30px; height:30px; color:#fff; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+.contract-body { padding:28px; }
+.contract-before { background:#f2faea; border-left:3px solid var(--g300); border-radius:0 8px 8px 0; padding:18px; margin-bottom:24px; font-style:italic; font-size:13px; color:var(--text-sub); line-height:1.85; }
+.contract-before strong { font-weight:600; font-style:normal; color:var(--text); }
+.contract-section-title { font-size:9px; text-transform:uppercase; letter-spacing:0.18em; color:var(--g400); font-weight:600; margin:24px 0 8px; padding-bottom:6px; border-bottom:1px solid var(--border); }
+.contract-article { margin-bottom:20px; }
+.contract-article h3 { font-size:9px; text-transform:uppercase; letter-spacing:0.15em; color:var(--g400); font-weight:600; margin-bottom:6px; }
+.contract-article p,.contract-article li { font-size:12.5px; color:var(--text-sub); line-height:1.8; }
+.contract-article ul { padding-left:18px; }
+.contract-article li { margin-bottom:4px; }
+.contract-article em { color:var(--text); font-style:italic; }
+.contract-article strong { font-weight:500; color:var(--text); }
+.contract-divider { border:none; border-top:1px solid var(--border); margin:18px 0; }
+.contract-names-block { background:var(--surface2); border:1px solid var(--border); border-radius:10px; padding:16px 18px; margin:12px 0 20px; }
+.contract-names-block p { font-size:12.5px; color:var(--text-sub); line-height:1.8; }
+.name-em { font-weight:500; color:var(--text); }
+.contract-and { text-align:center; color:var(--text-muted); font-style:italic; margin:8px 0; font-size:12px; }
+
+/* ── SIGNATURES ── */
+.signature-section { margin-top:28px; background:var(--surface2); border:1px solid var(--border); border-radius:14px; padding:22px; }
+.sig-title { font-size:10px; text-transform:uppercase; letter-spacing:0.14em; color:var(--text-muted); font-weight:600; margin-bottom:16px; text-align:center; }
+.sig-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.sig-box { background:#fff; border-radius:10px; padding:14px; border:1px solid var(--border); }
+.sig-person { font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-muted); margin-bottom:8px; }
+.sig-canvas-wrap { background:#fff; border:1px solid var(--border-med); border-radius:8px; overflow:hidden; margin-bottom:8px; }
+.sig-canvas { display:block; width:100%; height:80px; touch-action:none; cursor:crosshair; }
+.sig-role { font-size:10px; color:var(--text-muted); text-align:center; margin-top:4px; }
+.sig-actions { display:flex; gap:6px; margin-bottom:6px; }
+.sig-clear { background:none; border:1px solid var(--border-med); border-radius:6px; padding:5px 10px; font-size:10px; color:var(--text-muted); cursor:pointer; font-family:'DM Sans',sans-serif; }
+.sig-accept { background:var(--g400); color:#fff; border:none; border-radius:6px; padding:5px 10px; font-size:10px; cursor:pointer; font-family:'DM Sans',sans-serif; font-weight:500; flex:1; }
+.sig-accept:hover { background:var(--g300); }
+.sig-accepted { text-align:center; padding:16px; color:var(--g400); font-size:12px; font-style:italic; display:none; }
+.sig-date-shown { text-align:center; font-size:9px; color:var(--text-muted); margin-top:2px; display:none; }
+.both-accepted { text-align:center; margin-top:16px; padding:18px; background:linear-gradient(135deg,var(--g500),var(--g300)); border-radius:12px; color:#fff; font-family:'DM Serif Display',serif; font-size:20px; display:none; }
+.both-accepted-sub { font-family:'DM Sans',sans-serif; font-size:11px; color:rgba(255,255,255,0.75); margin-top:6px; display:block; font-style:italic; }
+.print-pdf-btn { display:none; margin-top:14px; width:100%; background:#fff; border:2px solid var(--g400); color:var(--g400); border-radius:10px; padding:12px; font-family:'DM Serif Display',serif; font-size:15px; cursor:pointer; align-items:center; justify-content:center; gap:8px; transition:all 0.15s; }
+.print-pdf-btn:hover { background:var(--g400); color:#fff; }
+.print-pdf-btn.visible { display:flex; }
+
+/* ── PRINT STYLES ── */
+@media print {
+  body { background:#fff; }
+  .dash, .hero, .key-stats, .body, .nav-tabs, .tab-content, .contract-overlay { display:none !important; }
+  .print-area { display:block !important; }
+  .print-area * { color:#000 !important; background:none !important; }
+  @page { margin:2cm; }
+}
+.print-area { display:none; }
+
+::-webkit-scrollbar { width:4px; }
+::-webkit-scrollbar-thumb { background:var(--g100); border-radius:4px; }
+
+@media (max-width:600px) {
+  .hero-inner { flex-direction:column; align-items:stretch; }
+  .hero-counter { text-align:center; }
+  .hero { padding:24px 18px 20px; }
+  .overview-top,.overview-bottom { grid-template-columns:1fr; }
+  .sig-grid { grid-template-columns:1fr; }
+  .key-stats { grid-template-columns:repeat(2,1fr); }
+  .kstat:nth-child(2) { border-right:none; }
+  .kstat:nth-child(3),.kstat:nth-child(4) { border-top:1px solid var(--border); }
+  .kstat:nth-child(4) { border-right:none; }
+  .body { padding:10px; }
+}
+```
+
+  </style>
+</head>
+<body>
+<div class="dash">
+
+  <!-- HERO -->
+
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-left">
+        <div class="hero-label">relationship dashboard · v & m</div>
+        <div class="hero-name">The Construction <em>of Us</em></div>
+        <div class="hero-partners">
+          <div class="partner-row"><div class="partner-dot"></div><span class="partner-name">Mary Marjorie D. Dumlao, RCE, RMP, SO-2</span></div>
+          <div class="partner-row"><div class="partner-dot" style="background:var(--g200)"></div><span class="partner-name">Vencer G. Pascual, RCE, PE-1, SO-2</span></div>
+          <div class="partner-tagline" id="days-sub">· a lifetime commitment ·</div>
+        </div>
+      </div>
+      <div class="hero-counter">
+        <div class="days" id="days-counter">—</div>
+        <div class="days-label">days since<br>first connection</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KEY STATS -->
+
+  <div class="key-stats">
+    <div class="kstat"><div class="kstat-val">60</div><div class="kstat-label">entries</div></div>
+    <div class="kstat"><div class="kstat-val">23</div><div class="kstat-label">dates</div></div>
+    <div class="kstat"><div class="kstat-val">15</div><div class="kstat-label">family</div></div>
+    <div class="kstat"><div class="kstat-val">7</div><div class="kstat-label">trips</div></div>
+  </div>
+
+  <div class="body">
+    <div class="nav-tabs">
+      <button class="nav-tab active" onclick="switchTab('overview')">Overview</button>
+      <button class="nav-tab" onclick="switchTab('log')">Reports</button>
+      <button class="nav-tab" onclick="switchTab('photos')">Gallery</button>
+      <button class="nav-tab" onclick="switchTab('contract')">The Contract</button>
+    </div>
+
+```
+<!-- OVERVIEW -->
+<div class="tab-content active" id="tab-overview">
+  <div class="overview-top">
+    <div class="card">
+      <div class="card-title">Structural progress <span class="card-title-sub">monthly build-up</span></div>
+      <div id="progressBars"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Activity load</div>
+      <div class="activity-donut-wrap">
+        <canvas id="donutChart" width="110" height="110"></canvas>
+        <div class="activity-legend" id="actLegend"></div>
+      </div>
+    </div>
+  </div>
+  <div class="overview-bottom">
+    <div class="card">
+      <div class="card-title">Engagement index <span class="card-title-sub">dates per month</span></div>
+      <div id="engagementBars"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Project phases</div>
+      <div class="phases-list" id="phasesList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- LOG -->
+<div class="tab-content" id="tab-log">
+  <div class="card" style="padding:0">
+    <div style="padding:16px 18px 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+      <div style="font-size:13px;font-weight:600;color:var(--text)">Accomplishment Reports</div>
+      <div id="logFilter" style="display:flex;gap:4px;flex-wrap:wrap;"></div>
+    </div>
+    <div class="log-section" id="logList" style="padding:4px 18px 18px;margin-top:10px;"></div>
+  </div>
+</div>
+
+<!-- GALLERY -->
+<div class="tab-content" id="tab-photos">
+  <div class="card">
+    <div class="edit-mode-bar">
+      <div style="font-size:13px;font-weight:600;color:var(--text)">Gallery</div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="edit-mode-indicator" id="editIndicator">view mode</span>
+        <button class="edit-toggle" id="editToggle" onclick="toggleEditMode()">+ edit</button>
+      </div>
+    </div>
+
+    <!-- GDRIVE SETUP PANEL -->
+    <div class="gdrive-setup" id="gdrivePanel">
+      <div class="gdrive-setup-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        Google Drive Photos
+      </div>
+      <div class="gdrive-setup-desc">
+        Paste a <strong>Google Drive folder ID</strong> to show photos from your shared album.<br>
+        To get the ID: open your folder in Google Drive → copy the part after <code style="background:var(--surface3);padding:1px 4px;border-radius:3px;font-size:10px;">/folders/</code> in the URL.<br>
+        Make sure the folder is set to <strong>"Anyone with the link can view."</strong>
+      </div>
+      <div class="gdrive-input-row">
+        <input class="gdrive-input" id="gdriveInput" type="text" placeholder="Paste folder ID here e.g. 1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs" />
+        <button class="gdrive-btn" onclick="loadDriveFolder()">Load Photos</button>
+        <button class="gdrive-btn secondary" onclick="clearDrive()">Clear</button>
+      </div>
+      <div class="gdrive-status" id="gdriveStatus"></div>
+    </div>
+
+    <!-- GDRIVE PHOTOS OUTPUT -->
+    <div id="gdrivePhotos"></div>
+
+    <!-- LOCAL GALLERY DIVIDER -->
+    <div class="gdrive-section-label">📁 Local uploads (device only)</div>
+    <div id="galleryContainer"></div>
+  </div>
+</div>
+
+<!-- CONTRACT TAB -->
+<div class="tab-content" id="tab-contract">
+  <button class="contract-btn" onclick="openContract()">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+    View The Contract
+    <span class="contract-btn-sub">tap to open · sign below</span>
+  </button>
+</div>
+```
+
+  </div>
+</div>
+
+<!-- CONTRACT OVERLAY -->
+
+<div class="contract-overlay" id="contractOverlay">
+  <div class="contract-modal">
+    <div class="contract-header">
+      <button class="contract-close" onclick="closeContract()">×</button>
+      <div class="contract-header-title">Relationship Contract</div>
+      <div class="contract-header-sub">The Construction and Continuous Development of "Us" · May 1, 2026</div>
+    </div>
+    <div class="contract-body">
+      <div style="text-align:center;margin-bottom:20px;">
+        <div style="font-family:'DM Serif Display',serif;font-size:15px;color:var(--text);letter-spacing:0.08em;">RELATIONSHIP CONTRACT</div>
+        <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.15em;margin-top:4px;">The Construction and Continuous Development of "Us"</div>
+        <div style="font-size:11px;color:var(--text-muted);font-style:italic;margin-top:4px;">· a lifetime commitment ·</div>
+      </div>
+      <div class="contract-section-title">Before anything else</div>
+      <div class="contract-before">
+        This is not just a contract.<br><br>This is me choosing you, intentionally.<br><br>Not because everything is perfect, but because what we have is real, steady, and worth building.<br><br>If there's one thing I've learned, it's this:<br>Love isn't something that should make us smaller, or make us question our worth. It should feel safe. Clear. Certain.<br><br>And with you, I'm starting to understand what that feels like.<br><br>I hope you are the kind of love I never have to heal from or move on from.<br>I hope we become a kind of love that nourishes each other — not drains, not breaks, but builds.<br><br>I hope we continue choosing each other, even on the days it feels difficult.<br>To keep working with each other, and for each other — never against.<br><br>I know I am not perfect, and I never will be. Neither are you, nor this relationship.<br><br>But I hope we never lose sight of why we started, how we began, and continue choosing to cherish that.<br><br>So this — in all its structure and intention — is simply my way of saying:<br><br><strong>I choose to build this with you, babe.</strong>
+      </div>
+      <div class="contract-section-title">Relationship Definition</div>
+      <div class="contract-article"><p>For purposes of this Contract, the term <strong>"RELATIONSHIP"</strong> shall refer to the shared relational system known as <strong>"US,"</strong> encompassing the emotional, practical, and life integration built and continuously developed by the PARTNERS.</p><br><p>The RELATIONSHIP is not a task, obligation, or temporary arrangement, but a living system of connection, growth, communication, and shared experience that evolves through time.</p></div>
+      <div class="contract-section-title">Know all persons by these presents</div>
+      <div class="contract-article"><p>This Contract is made and entered into this <strong>1st day of May 2026</strong>, at Angeles City, Pampanga, being the night where the lives of the PARTNERS formally intertwine, by and between:</p></div>
+      <div class="contract-names-block">
+        <p><span class="name-em">MARY MARJORIE D. DUMLAO, RCE, RMP, SO-2</span><br>Of legal age and sound mind, Filipino, residing at 356 Jose Abad Santos St., Mabato, Pulungbulo, City of San Fernando, Pampanga</p>
+        <div class="contract-and">—and—</div>
+        <p><span class="name-em">VENCER G. PASCUAL, RCE, PE-1, SO-2</span><br>Of legal age and sound mind, Filipino, residing at Partida, Bulusukan, San Ildefonso, Bulacan</p>
+        <br><p style="font-style:italic;font-size:11px;color:var(--text-muted);">Hereinafter referred to collectively as the "PARTNERS."</p>
+      </div>
+      <div class="contract-section-title">Witnesseth</div>
+      <div class="contract-article">
+        <ul>
+          <li>WHEREAS, the PARTNERS first established connection on <strong>December 1, 2025</strong>;</li>
+          <li>WHEREAS, the PARTNERS personally met on <strong>December 6, 2025</strong>, marking a meaningful first connection;</li>
+          <li>WHEREAS, on <strong>December 19, 2025</strong>, mutual intention to pursue the RELATIONSHIP was formally established — slowly, clearly, and without hesitation;</li>
+          <li>WHEREAS, the PARTNERS have successfully completed initial phases of development, including integration with respective families on: <strong>December 23, 2025</strong> (Vencer's family) and <strong>January 10, 2026</strong> (Marjorie's family);</li>
+          <li>WHEREAS, the foundation has been surveyed, tested, and proven stable through consistent interaction, shared experiences, and mutual effort;</li>
+        </ul>
+        <br><p><em>NOW, THEREFORE, for and in consideration of the foregoing premises, the PARTNERS hereby agree as follows:</em></p>
+      </div>
+      <hr class="contract-divider">
+      <div class="contract-article"><h3>Article 1 · Contract Documents</h3><p>The Contract Documents shall include all records, logs, conversations, memories, and shared experiences relating to the RELATIONSHIP, including but not limited to:</p><ul><li>This Contract</li><li>Timeline and Monitoring Logs</li><li>Monthly Feedback Sessions</li><li>Shared Plans, Goals, and Commitments</li></ul></div>
+      <hr class="contract-divider">
+      <div class="contract-article"><h3>Article 2 · Management</h3><p>The PARTNERS shall jointly manage the RELATIONSHIP as equal contributors. Neither party shall diminish the independence, identity, or individuality of the other. The RELATIONSHIP exists to support, not replace, who each person already is.</p></div>
+      <hr class="contract-divider">
+      <div class="contract-article"><h3>Article 3 · Scope of Work</h3><p>The PARTNERS agree to build, maintain, and continuously improve the RELATIONSHIP. All development shall be intentional, mutual, and respectful, including:</p><ul><li>Honest and consistent communication — even when it is difficult, we will try, babe</li><li>Emotional presence and support</li><li>Shared time and lived experiences</li><li>Integration into each other's personal and family systems</li></ul><br><p>These are not obligations, but small, consistent ways we choose to maintain how we show up for each other.</p><br><p>The PARTNERS further commit to building a RELATIONSHIP that does not require either to shrink, change beyond authenticity, or lose themselves for the sake of the other.</p><br><p>The PARTNERS also look forward to building shared experiences together, including celebrating occasions, exploring places, engaging in activities, and creating meaningful firsts that form part of the growing history of the RELATIONSHIP.</p></div>
+      <hr class="contract-divider">
+      <div class="contract-article"><h3>Article 4 · General Requirements</h3><ul><li>4.1 Each PARTNER shall provide effort, time, and emotional presence necessary for the stability of the RELATIONSHIP.</li><li>4.2 Regular communication and feedback sessions shall be maintained.</li><li>4.3 Accountability shall remain mutual and continuous.</li><li>4.4 Growth — individual and shared — shall be supported throughout all stages of development.</li></ul></div>
+      <hr class="contract-divider">
+      <div class="contract-article"><h3>Article 5 · Quality Control / Quality Assurance</h3><p>All aspects of the RELATIONSHIP shall be governed by: Care, Honesty, Patience, Respect, Understanding, and Emotional safety.</p><br><p><em>This is meant to be a gentle and patient kind of love — one that grows over time, without force or pressure.</em></p></div>
+      <hr class="contract-divider">
+      <div class="contract-article"><h3>Article 6 · Performance of Remedial Works</h3><p>In the event of conflict, misalignment, or misunderstanding:</p><ul><li>Both PARTNERS shall engage in open and respectful communication</li><li>Issues shall be addressed directly, not avoided</li><li>Resolution shall prioritize understanding and repair</li></ul><br><p><em>We choose to fix things together — not walk away from them, babe.</em></p></div>
+      <hr class="contract-divider">
+      <div class="contract-article"><h3>Article 7 · Time and Duration</h3><p>This Contract shall commence on May 1, 2026, and shall remain in effect for an <strong>indefinite duration</strong>. There is no completion date, as the RELATIONSHIP is intended for continuous development, maintenance, and growth.</p><br><p>Instead of completion, the PARTNERS agree to conduct periodic assessment sessions, where they will:</p><ul><li>Share realizations and emotional reflections</li><li>Evaluate their experience with one another</li><li>Identify strengths within the RELATIONSHIP</li><li>Point out areas for improvement and growth</li><li>Align expectations and future direction</li></ul><br><p><em>The absence of a completion date is replaced by a commitment to continue choosing each other — again and again, through time, babe.</em></p></div>
+      <hr class="contract-divider">
+      <div class="contract-article"><h3>Article 8 · Changes in Work</h3><p>The PARTNERS may introduce modifications, improvements, or adjustments at any time, provided that such changes are mutually agreed upon. All changes shall aim to enhance, not compromise, the integrity of the RELATIONSHIP.</p></div>
+      <hr class="contract-divider">
+      <div class="contract-article"><h3>Article 9 · Responsibilities of the Partners</h3><p>Each PARTNER shall:</p><ul><li>Act in good faith</li><li>Provide support when needed</li><li>Maintain respect and emotional safety</li><li>Protect the integrity of the RELATIONSHIP</li></ul><br><p>Neither shall abandon the RELATIONSHIP without communication and sincere effort toward resolution.</p></div>
+      <hr class="contract-divider">
+      <div class="contract-article"><h3>Article 10 · Events of Default</h3><p>Default may include: failure to communicate, emotional withdrawal without explanation, or neglect of agreed responsibilities. In such cases, both PARTNERS shall prioritize discussion and resolution.</p></div>
+      <hr class="contract-divider">
+      <div class="contract-article"><h3>Article 11 · Effects of Default</h3><p>In the event of default: honest communication shall be initiated, responsibility shall be acknowledged, and restoration of the RELATIONSHIP shall be attempted. The intent shall always be repair, not termination.</p></div>
+      <hr class="contract-divider">
+      <div class="contract-article"><h3>Article 12 · Final Acceptance</h3><p>I hope you feel loved around me, babe.</p><br><p>I hope this relationship never asks you to shrink, change, or lose yourself just to stay.</p><br><p>I hope we continue choosing each other — not just now, but again and again.</p><br><p>And more than anything, <em>I hope I become the kind of love you never have to heal from.</em></p></div>
+      <hr class="contract-divider">
+      <div style="text-align:center;margin:16px 0 8px;">
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:0.18em;color:var(--text-muted);">In Witness Whereof</div>
+        <div style="font-size:12px;color:var(--text-sub);margin-top:6px;font-style:italic;">By affixing their signatures below, each party formally accepts all terms and declares, with full structural confidence —</div>
+        <div style="font-family:'DM Serif Display',serif;font-size:26px;color:var(--g400);margin-top:10px;">YES.</div>
+      </div>
+      <div class="signature-section">
+        <div class="sig-title">· signatories ·</div>
+        <div class="sig-grid">
+          <div class="sig-box">
+            <div class="sig-person">Mary Marjorie D. Dumlao</div>
+            <div id="sig1-draw-area">
+              <div class="sig-canvas-wrap"><canvas class="sig-canvas" id="sig1" width="220" height="80"></canvas></div>
+              <div class="sig-actions" id="sig1-actions"><button class="sig-clear" onclick="clearSig(1)">clear</button><button class="sig-accept" onclick="acceptSig(1)">YES, I accept</button></div>
+            </div>
+            <div class="sig-accepted" id="sig1-accepted">Signed with love ♡</div>
+            <div class="sig-date-shown" id="sig1-date"></div>
+            <div class="sig-role">The Girlfriend</div>
+          </div>
+          <div class="sig-box">
+            <div class="sig-person">Vencer G. Pascual</div>
+            <div id="sig2-draw-area">
+              <div class="sig-canvas-wrap"><canvas class="sig-canvas" id="sig2" width="220" height="80"></canvas></div>
+              <div class="sig-actions" id="sig2-actions"><button class="sig-clear" onclick="clearSig(2)">clear</button><button class="sig-accept" onclick="acceptSig(2)">YES, I accept</button></div>
+            </div>
+            <div class="sig-accepted" id="sig2-accepted">Signed with love ♡</div>
+            <div class="sig-date-shown" id="sig2-date"></div>
+            <div class="sig-role">The Boyfriend</div>
+          </div>
+        </div>
+        <div class="both-accepted" id="bothAccepted">
+          ♡ &nbsp; Officially yours, babe &nbsp; ♡
+          <span class="both-accepted-sub">Contract accepted by both parties · May 1, 2026</span>
+        </div>
+        <button class="print-pdf-btn" id="printPdfBtn" onclick="printContract()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          Print / Save as PDF
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+
+<script>
+// ── DAYS ──
+const start = new Date('2025-12-01');
+const days = Math.floor((new Date() - start) / (1000*60*60*24));
+document.getElementById('days-counter').textContent = days;
+document.getElementById('days-sub').textContent = `· ${days} days and counting ·`;
+
+// ── TABS ──
+function switchTab(name) {
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  ['overview','log','photos','contract'].forEach((t,i)=>{ if(t===name) document.querySelectorAll('.nav-tab')[i].classList.add('active'); });
+}
+
+// ── PHASES ──
+[{tag:'Dec 2025',name:'Site Identification + Foundation',items:['First connection (Bumble)','First meet-up','Initial emotional recognition']},
+ {tag:'Jan 2026',name:'Structural Formation',items:['Regular routines begin','First trips and shared days','Family introductions start']},
+ {tag:'Feb 2026',name:'Emotional Integration',items:["Valentine's experience",'Deeper emotional bonding','Trust strengthening']},
+ {tag:'Mar 2026',name:'Expansion Phase',items:['Social integration','More external experiences','Relationship becomes visible']},
+ {tag:'Apr 2026+',name:'Continuous Development',items:['Contract commencement','Ongoing commitment','Growing together']}
+].forEach((p,i,arr)=>{
+  document.getElementById('phasesList').innerHTML+=`<div class="phase-item"><div class="phase-line-col"><div class="phase-dot"></div>${i<arr.length-1?'<div class="phase-connector"></div>':''}</div><div class="phase-content"><div class="phase-tag">${p.tag}</div><div class="phase-name">${p.name}</div><div class="phase-items">${p.items.map(it=>`<span>${it}</span>`).join('')}</div></div></div>`;
+});
+
+// ── PROGRESS BARS ──
+[{month:'December 2025',pct:20},{month:'January 2026',pct:40},{month:'February 2026',pct:60},{month:'March 2026',pct:80},{month:'April 2026',pct:90}].forEach(d=>{
+  document.getElementById('progressBars').innerHTML+=`<div class="phase-bar"><div class="pb-header"><span class="pb-month">${d.month}</span><span class="pb-pct">${d.pct}%</span></div><div class="pb-track"><div class="pb-fill" style="width:${d.pct}%"></div></div></div>`;
+});
+
+// ── ENGAGEMENT ──
+[{month:'Dec',dates:13},{month:'Jan',dates:9},{month:'Feb',dates:11},{month:'Mar',dates:12},{month:'Apr',dates:15}].forEach(d=>{
+  document.getElementById('engagementBars').innerHTML+=`<div class="engagement-month"><div class="eng-label">${d.month}</div><div class="eng-bar"><div class="eng-fill" style="width:${Math.round(d.dates/15*100)}%"></div></div><div class="eng-count">${d.dates}</div></div>`;
+});
+
+// ── DONUT ──
+const actData=[{label:'Dates',count:23,color:'#6aaa44'},{label:'Family',count:15,color:'#1a8a6a'},{label:'Work',count:8,color:'#c8980a'},{label:'Trips',count:7,color:'#2a6aaa'},{label:'Leisure',count:7,color:'#8a38aa'}];
+new Chart(document.getElementById('donutChart'),{type:'doughnut',data:{labels:actData.map(a=>a.label),datasets:[{data:actData.map(a=>a.count),backgroundColor:actData.map(a=>a.color),borderWidth:2,borderColor:'#fff'}]},options:{responsive:false,plugins:{legend:{display:false}},cutout:'65%'}});
+actData.forEach(a=>{document.getElementById('actLegend').innerHTML+=`<div class="act-leg-item"><div class="act-dot" style="background:${a.color}"></div><span>${a.label} <strong style="font-weight:600">${a.count}</strong></span></div>`;});
+
+// ── LOG ──
+const logData=[{num:1,date:'Dec 1, 2025',entry:'bumble matched!',cat:'Dates'},{num:2,date:'Dec 6, 2025',entry:'first meetup: bibingka date at luna ♡',cat:'Dates'},{num:3,date:'Dec 7, 2025',entry:'discord movie (still unfinished)',cat:'Dates'},{num:4,date:'Dec 8, 2025',entry:'singku date!',cat:'Dates'},{num:5,date:'Dec 13, 2025',entry:'cubao date: tacobell and first angkas ride of marjie',cat:'Dates'},{num:6,date:'Dec 14, 2025',entry:'mcdo breakfast at qc',cat:'Dates'},{num:7,date:'Dec 19, 2025',entry:'greenfields! glam cafe & bazaar, my first bouquet… and our first kiss',cat:'Dates'},{num:8,date:'Dec 20, 2025',entry:'1000 cc and 24 chicken date',cat:'Dates'},{num:9,date:'Dec 23, 2025',entry:"breakfast tapsi + first 'you know' + first time meeting Vency's family",cat:'Family'},{num:10,date:'Dec 26, 2025',entry:'golf date ♡',cat:'Leisure'},{num:11,date:'Dec 27, 2025',entry:'first gym day together—boxing!',cat:'Leisure'},{num:12,date:'Dec 29, 2025',entry:'samgyupsal, clark, and first eurotel',cat:'Trips'},{num:13,date:'Dec 31, 2025',entry:"new year's eve kiss!",cat:'Dates'},{num:14,date:'Jan 2, 2026',entry:'first date of the year! paya + drizzled chicken',cat:'Dates'},{num:15,date:'Jan 8, 2026',entry:'friday dinner (parang inuuwian nako every weekend haha)',cat:'Dates'},{num:16,date:'Jan 9, 2026',entry:"dpwh errands + vency's first driving lesson by marj + meeting of friends",cat:'Work'},{num:17,date:'Jan 10, 2026',entry:"first time meeting marjie's family",cat:'Family'},{num:18,date:'Jan 11, 2026',entry:'lunch date with dumlao family + sb + our first mass together at HRPC',cat:'Family'},{num:19,date:'Jan 17, 2026',entry:"eurotel before vency's trip to bulacan",cat:'Trips'},{num:20,date:'Jan 24, 2026',entry:'golf and dinner with ate micah and kuya kerwin',cat:'Family'},{num:21,date:'Jan 25, 2026',entry:'start of buildstruct!',cat:'Work'},{num:22,date:'Jan 31, 2026',entry:"first outing together: zambales with vency's friends",cat:'Trips'},{num:23,date:'Feb 6, 2026',entry:'pasay overnight + best breakfast + moa',cat:'Trips'},{num:24,date:'Feb 13, 2026',entry:"griller's hub",cat:'Dates'},{num:25,date:'Feb 14, 2026',entry:"first valentine's date: bulacan + cafe galilea + cdc",cat:'Dates'},{num:26,date:'Feb 15, 2026',entry:"vency's driving school + northpark",cat:'Work'},{num:27,date:'Feb 16, 2026',entry:"vency's student permit + but first coffee",cat:'Work'},{num:28,date:'Feb 17, 2026',entry:'cdc walk + oh silog + iglu',cat:'Leisure'},{num:29,date:'Feb 20, 2026',entry:"vency's driver's license (marj = passenger princess)",cat:'Work'},{num:30,date:'Feb 21, 2026',entry:'cdc walk and oh silog with ate micah and nanay',cat:'Family'},{num:31,date:'Feb 22, 2026',entry:"morning walk and breakfast with donie, valentine's lunch with the dumlao family, and mass at apu church",cat:'Family'},{num:32,date:'Feb 27, 2026',entry:'boom chicken and dubai pistachioooo',cat:'Dates'},{num:33,date:'Feb 28, 2026',entry:'dofi cafe',cat:'Dates'},{num:34,date:'Mar 1, 2026',entry:"ate anne and ate neal's bday lunch and coffee + vency's shopping",cat:'Family'},{num:35,date:'Mar 2, 2026',entry:'picked me up at work + dinner + hakone',cat:'Dates'},{num:36,date:'Mar 7, 2026',entry:'wangfu dinner',cat:'Dates'},{num:37,date:'Mar 8, 2026',entry:"bulacan trip: christening, went to vency's house, and met up with vency's HS friends",cat:'Trips'},{num:38,date:'Mar 13, 2026',entry:'oasis overnight: dinner at niji',cat:'Trips'},{num:39,date:'Mar 14, 2026',entry:'oasis overnight: swimming, billiards, and soccer table',cat:'Trips'},{num:40,date:'Mar 15, 2026',entry:'megaworld food crawl',cat:'Dates'},{num:41,date:'Mar 20, 2026',entry:'luna maintenance + double date with ate joyce and kuya bhae',cat:'Family'},{num:42,date:'Mar 21, 2026',entry:"hangout at vency's",cat:'Dates'},{num:43,date:'Mar 27, 2026',entry:'qc date: burger and pasta',cat:'Dates'},{num:44,date:'Mar 28, 2026',entry:"met arvin and shiela at arvin's mom's birthday",cat:'Family'},{num:45,date:'Mar 29, 2026',entry:'first palm sunday (green and red outfit haha) + jungle base',cat:'Family'},{num:46,date:'Apr 1, 2026',entry:'cdc picnic date',cat:'Leisure'},{num:47,date:'Apr 2, 2026',entry:'visita iglesia with mama and nanay',cat:'Family'},{num:48,date:'Apr 3, 2026',entry:"good friday procession, birthday salubong (cooked banana pancakes), and vency's first overnight",cat:'Family'},{num:49,date:'Apr 4, 2026',entry:'cafe altezza! (that capybara cake stole my heart)',cat:'Leisure'},{num:50,date:'Apr 5, 2026',entry:'birthday dinner with family',cat:'Family'},{num:51,date:'Apr 10, 2026',entry:'mcdo dinner',cat:'Dates'},{num:52,date:'Apr 11, 2026',entry:"elle's birthday and drink session (wahaha)",cat:'Family'},{num:53,date:'Apr 12, 2026',entry:"lunch at vency's and maganda hotel",cat:'Leisure'},{num:54,date:'Apr 17, 2026',entry:'ningnangan dinner',cat:'Dates'},{num:55,date:'Apr 18, 2026',entry:'buildstruct: first client meeting at sb',cat:'Work'},{num:56,date:'Apr 19, 2026',entry:'work sesh at sb',cat:'Work'},{num:57,date:'Apr 23, 2026',entry:'jollibee dinner',cat:'Dates'},{num:58,date:'Apr 24, 2026',entry:'morning walk and philconstruct!',cat:'Work'},{num:59,date:'Apr 25, 2026',entry:'drink sesh with dumlao boyz',cat:'Leisure'},{num:60,date:'Apr 26, 2026',entry:'lakeshore date with ate ghel and kuya erich',cat:'Family'}];
+
+let activeFilter='All';
+const filterCats=['All','Dates','Family','Trips','Work','Leisure'];
+filterCats.forEach(cat=>{
+  const btn=document.createElement('button');
+  btn.textContent=cat;
+  btn.style.cssText=`background:${cat==='All'?'var(--g400)':'var(--surface2)'};color:${cat==='All'?'#fff':'var(--text-muted)'};border:1px solid var(--border);border-radius:12px;padding:3px 10px;font-size:10px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.15s;`;
+  btn.onclick=()=>{ activeFilter=cat; renderLog(); document.querySelectorAll('#logFilter button').forEach((b,i)=>{b.style.background=filterCats[i]===cat?'var(--g400)':'var(--surface2)';b.style.color=filterCats[i]===cat?'#fff':'var(--text-muted)';});};
+  document.getElementById('logFilter').appendChild(btn);
+});
+function renderLog(){ const filtered=activeFilter==='All'?logData:logData.filter(d=>d.cat===activeFilter); document.getElementById('logList').innerHTML=filtered.map(d=>`<div class="log-item"><div class="log-num">#${String(d.num).padStart(2,'0')}</div><div class="log-line"><div class="log-date">${d.date}</div><div class="log-entry">${d.entry}</div><span class="log-cat cat-${d.cat}">${d.cat.toLowerCase()}</span></div></div>`).join(''); }
+renderLog();
+
+// ── GOOGLE DRIVE GALLERY ──
+const DRIVE_KEY = 'vm_drive_folder_v1';
+
+function loadDriveFolder() {
+  const raw = document.getElementById('gdriveInput').value.trim();
+  if (!raw) { setDriveStatus('Please paste a folder ID first.'); return; }
+  // Extract folder ID whether they pasted a URL or just the ID
+  let folderId = raw;
+  const match = raw.match(/\/folders\/([a-zA-Z0-9_-]+)/);
+  if (match) folderId = match[1];
+  localStorage.setItem(DRIVE_KEY, folderId);
+  renderDrivePhotos(folderId);
+}
+
+function clearDrive() {
+  localStorage.removeItem(DRIVE_KEY);
+  document.getElementById('gdriveInput').value = '';
+  document.getElementById('gdrivePhotos').innerHTML = '';
+  setDriveStatus('');
+}
+
+function setDriveStatus(msg) { document.getElementById('gdriveStatus').textContent = msg; }
+
+function renderDrivePhotos(folderId) {
+  setDriveStatus('Loading from Google Drive…');
+  const container = document.getElementById('gdrivePhotos');
+  // Build embedded folder viewer iframe — works for public folders
+  container.innerHTML = `
+    <div style="margin-bottom:10px;">
+      <div style="font-size:10px;color:var(--text-muted);margin-bottom:6px;">📂 Showing: <code style="background:var(--surface3);padding:1px 5px;border-radius:3px;font-size:9px;">${folderId}</code>
+        <a href="https://drive.google.com/drive/folders/${folderId}" target="_blank" style="color:var(--g400);font-size:10px;margin-left:6px;">Open in Drive ↗</a>
+      </div>
+      <iframe
+        src="https://drive.google.com/embeddedfolderview?id=${folderId}#grid"
+        style="width:100%;height:400px;border:1px solid var(--border);border-radius:10px;background:var(--surface2);"
+        frameborder="0"
+        allowfullscreen
+        onload="document.getElementById('gdriveStatus').textContent=''"
+        onerror="document.getElementById('gdriveStatus').textContent='Could not load folder. Make sure sharing is set to Anyone with the link.'">
+      </iframe>
+      <div style="font-size:9px;color:var(--text-muted);margin-top:6px;font-style:italic;">Tip: In grid view, click any photo to view fullscreen.</div>
+    </div>`;
+  document.getElementById('gdriveInput').value = folderId;
+  setDriveStatus('');
+}
+
+// On load, restore saved drive folder
+(function() {
+  const saved = localStorage.getItem(DRIVE_KEY);
+  if (saved) { renderDrivePhotos(saved); document.getElementById('gdriveInput').value = saved; }
+})();
+
+// ── LOCAL GALLERY ──
+const GALLERY_KEY='vm_gallery_v1';
+const months=['December 2025','January 2026','February 2026','March 2026','April 2026'];
+let editMode=false, galleryData={};
+function loadGallery(){ try{ const s=localStorage.getItem(GALLERY_KEY); if(s){ galleryData=JSON.parse(s); months.forEach(m=>{if(!galleryData[m])galleryData[m]=[null,null,null];}); }else{ months.forEach(m=>{galleryData[m]=[null,null,null];}); } }catch(e){ months.forEach(m=>{galleryData[m]=[null,null,null];}); } }
+function saveGallery(){ try{ localStorage.setItem(GALLERY_KEY,JSON.stringify(galleryData)); }catch(e){} }
+function toggleEditMode(){ editMode=!editMode; document.getElementById('editToggle').textContent=editMode?'save':'+ edit'; document.getElementById('editIndicator').textContent=editMode?'edit mode — tap slots to add photos':'view mode'; renderGallery(); }
+function renderGallery(){
+  const gc=document.getElementById('galleryContainer'); gc.innerHTML='';
+  months.forEach(m=>{
+    const div=document.createElement('div'); div.className='photo-month';
+    div.innerHTML=`<div class="photo-month-label">${m}</div>`;
+    const grid=document.createElement('div'); grid.className='photos-grid';
+    galleryData[m].forEach((imgSrc,i)=>{
+      const slot=document.createElement('div'); slot.className='photo-slot'+(imgSrc?' has-photo':'');
+      if(imgSrc){ const img=document.createElement('img'); img.src=imgSrc; slot.appendChild(img); if(editMode){ const rmBtn=document.createElement('button'); rmBtn.className='photo-remove'; rmBtn.textContent='×'; rmBtn.onclick=(e)=>{e.stopPropagation();galleryData[m][i]=null;saveGallery();renderGallery();}; slot.appendChild(rmBtn); } }
+      else if(editMode){ slot.innerHTML=`<div class="add-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 4v16m8-8H4"/></svg><span>add photo</span></div>`; slot.onclick=()=>{ const inp=document.createElement('input'); inp.type='file'; inp.accept='image/*'; inp.onchange=(e)=>{ const file=e.target.files[0]; if(!file)return; const reader=new FileReader(); reader.onload=(ev)=>{galleryData[m][i]=ev.target.result;saveGallery();renderGallery();}; reader.readAsDataURL(file); }; inp.click(); }; }
+      else{ slot.innerHTML=`<div class="add-icon" style="opacity:0.3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="m3 9 5-5 4 4 4-4 5 5"/></svg><span>no photo<br>yet</span></div>`; }
+      grid.appendChild(slot);
+    });
+    if(editMode){ const addMore=document.createElement('button'); addMore.className='add-month-btn'; addMore.innerHTML='+ add more slots'; addMore.onclick=()=>{galleryData[m].push(null);saveGallery();renderGallery();}; grid.appendChild(addMore); }
+    div.appendChild(grid); gc.appendChild(div);
+  });
+}
+loadGallery(); renderGallery();
+
+// ── CONTRACT & SIGNATURES ──
+function openContract(){ document.getElementById('contractOverlay').classList.add('open'); initSig(1); initSig(2); loadSigState(); }
+function closeContract(){ document.getElementById('contractOverlay').classList.remove('open'); }
+document.getElementById('contractOverlay').addEventListener('click',(e)=>{ if(e.target===document.getElementById('contractOverlay')) closeContract(); });
+
+const SIG_KEY='vm_signatures_v1';
+const sigState={1:{accepted:false,date:null,imgData:null},2:{accepted:false,date:null,imgData:null}};
+
+function saveSigState(){ try{ localStorage.setItem(SIG_KEY,JSON.stringify({sig1:sigState[1],sig2:sigState[2]})); }catch(e){} }
+function loadSigState(){
+  try{
+    const saved=localStorage.getItem(SIG_KEY); if(!saved) return;
+    const data=JSON.parse(saved);
+    if(data.sig1&&data.sig1.accepted){ Object.assign(sigState[1],data.sig1); showAccepted(1,data.sig1.imgData); }
+    if(data.sig2&&data.sig2.accepted){ Object.assign(sigState[2],data.sig2); showAccepted(2,data.sig2.imgData); }
+    checkBothAccepted();
+  }catch(e){}
+}
+function showAccepted(n, imgData){
+  const drawArea=document.getElementById('sig'+n+'-draw-area');
+  if(imgData){ drawArea.innerHTML=`<div style="border:1px solid var(--border-med);border-radius:8px;overflow:hidden;margin-bottom:8px;"><img src="${imgData}" style="width:100%;height:80px;object-fit:contain;display:block;background:#fff;"></div>`; }
+  const actEl=document.getElementById('sig'+n+'-actions'); if(actEl) actEl.style.display='none';
+  document.getElementById('sig'+n+'-accepted').style.display='block';
+  const dateEl=document.getElementById('sig'+n+'-date');
+  if(sigState[n].date){ dateEl.style.display='block'; dateEl.textContent='Signed: '+sigState[n].date; }
+}
+function checkBothAccepted(){
+  if(sigState[1].accepted&&sigState[2].accepted){
+    document.getElementById('bothAccepted').style.display='block';
+    document.getElementById('printPdfBtn').classList.add('visible');
+  }
+}
+function initSig(n){
+  if(sigState[n].accepted) return;
+  const c=document.getElementById('sig'+n); if(!c) return;
+  const ctx=c.getContext('2d'); ctx.strokeStyle='#4e8c2e'; ctx.lineWidth=1.8; ctx.lineCap='round'; ctx.lineJoin='round';
+  let drawing=false;
+  const getPos=(e)=>{ const rect=c.getBoundingClientRect(); const src=e.touches?e.touches[0]:e; return{x:(src.clientX-rect.left)*(c.width/rect.width),y:(src.clientY-rect.top)*(c.height/rect.height)}; };
+  c.onmousedown=c.ontouchstart=(e)=>{ e.preventDefault(); drawing=true; const p=getPos(e); ctx.beginPath(); ctx.moveTo(p.x,p.y); };
+  c.onmousemove=c.ontouchmove=(e)=>{ e.preventDefault(); if(!drawing)return; const p=getPos(e); ctx.lineTo(p.x,p.y); ctx.stroke(); };
+  c.onmouseup=c.ontouchend=c.onmouseleave=()=>{ drawing=false; };
+}
+function clearSig(n){ if(sigState[n].accepted)return; const c=document.getElementById('sig'+n); if(c) c.getContext('2d').clearRect(0,0,220,80); }
+function acceptSig(n){
+  const c=document.getElementById('sig'+n);
+  const imgData=c?c.toDataURL('image/png'):null;
+  const dateStr=new Date().toLocaleDateString('en-PH',{year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'});
+  sigState[n].accepted=true; sigState[n].date=dateStr; sigState[n].imgData=imgData;
+  showAccepted(n,imgData); checkBothAccepted(); saveSigState();
+}
+
+// ── PRINT CONTRACT ──
+function printContract(){
+  // Build a clean printable page of just the contract + signatures
+  const sig1Date = sigState[1].date || '';
+  const sig2Date = sigState[2].date || '';
+  const sig1Img = sigState[1].imgData ? `<img src="${sigState[1].imgData}" style="height:60px;display:block;margin-bottom:4px;">` : '';
+  const sig2Img = sigState[2].imgData ? `<img src="${sigState[2].imgData}" style="height:60px;display:block;margin-bottom:4px;">` : '';
+
+  const printWin = window.open('','_blank');
+  printWin.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8">
+  <title>V & M · Relationship Contract</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display:ital@0;1&display=swap');
+    body { font-family:'DM Sans',sans-serif; color:#1c2e14; max-width:680px; margin:40px auto; padding:0 32px; font-size:12px; line-height:1.8; }
+    h1 { font-family:'DM Serif Display',serif; font-size:24px; text-align:center; margin-bottom:4px; }
+    .subtitle { text-align:center; font-size:10px; text-transform:uppercase; letter-spacing:0.15em; color:#8aaa78; margin-bottom:4px; }
+    .tagline { text-align:center; font-style:italic; font-size:11px; color:#8aaa78; margin-bottom:28px; }
+    .section-title { font-size:8px; text-transform:uppercase; letter-spacing:0.18em; color:#4e8c2e; font-weight:600; margin:22px 0 6px; padding-bottom:5px; border-bottom:1px solid #e0eed8; }
+    .before-block { background:#f2faea; border-left:3px solid #6aaa44; padding:14px 16px; margin-bottom:20px; font-style:italic; font-size:12px; color:#4a6b38; line-height:1.85; }
+    .names-block { background:#f2f8ee; border:1px solid #d0e8c0; border-radius:8px; padding:14px 16px; margin:10px 0 18px; }
+    h3 { font-size:8px; text-transform:uppercase; letter-spacing:0.15em; color:#4e8c2e; font-weight:600; margin-bottom:5px; margin-top:0; }
+    ul { padding-left:18px; }
+    li { margin-bottom:3px; }
+    hr { border:none; border-top:1px solid #e0eed8; margin:16px 0; }
+    .sig-section { margin-top:28px; background:#f2f8ee; border:1px solid #d0e8c0; border-radius:10px; padding:20px; }
+    .sig-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:14px; }
+    .sig-box { background:#fff; border:1px solid #d0e8c0; border-radius:8px; padding:12px; }
+    .sig-name { font-size:9px; text-transform:uppercase; letter-spacing:0.08em; color:#8aaa78; margin-bottom:6px; }
+    .sig-role { font-size:9px; color:#8aaa78; text-align:center; margin-top:4px; }
+    .sig-date { font-size:9px; color:#8aaa78; text-align:center; }
+    .sig-accepted { text-align:center; color:#4e8c2e; font-style:italic; font-size:11px; margin-top:4px; }
+    .both-accepted { text-align:center; margin-top:16px; padding:14px; background:linear-gradient(135deg,#386820,#6aaa44); border-radius:10px; color:#fff; font-family:'DM Serif Display',serif; font-size:18px; }
+    .both-sub { font-family:'DM Sans',sans-serif; font-size:10px; color:rgba(255,255,255,0.75); margin-top:4px; display:block; font-style:italic; }
+    em { font-style:italic; }
+    strong { font-weight:500; }
+  </style></head><body>
+
+  <h1>Relationship Contract</h1>
+  <div class="subtitle">The Construction and Continuous Development of "Us"</div>
+  <div class="tagline">· a lifetime commitment · May 1, 2026 ·</div>
+
+  <div class="section-title">Before Anything Else</div>
+  <div class="before-block">This is not just a contract.<br><br>This is me choosing you, intentionally.<br><br>Not because everything is perfect, but because what we have is real, steady, and worth building.<br><br>If there's one thing I've learned, it's this: Love isn't something that should make us smaller, or make us question our worth. It should feel safe. Clear. Certain.<br><br>And with you, I'm starting to understand what that feels like.<br><br>I hope you are the kind of love I never have to heal from or move on from. I hope we become a kind of love that nourishes each other — not drains, not breaks, but builds.<br><br>I hope we continue choosing each other, even on the days it feels difficult. To keep working with each other, and for each other — never against.<br><br>I know I am not perfect, and I never will be. Neither are you, nor this relationship.<br><br>But I hope we never lose sight of why we started, how we began, and continue choosing to cherish that.<br><br>So this — in all its structure and intention — is simply my way of saying:<br><br><strong>I choose to build this with you, babe.</strong></div>
+
+  <div class="section-title">Relationship Definition</div>
+  <p>For purposes of this Contract, the term <strong>"RELATIONSHIP"</strong> shall refer to the shared relational system known as <strong>"US,"</strong> encompassing the emotional, practical, and life integration built and continuously developed by the PARTNERS. The RELATIONSHIP is not a task, obligation, or temporary arrangement, but a living system of connection, growth, communication, and shared experience that evolves through time.</p>
+
+  <div class="section-title">Know All Persons by These Presents</div>
+  <p>This Contract is made and entered into this <strong>1st day of May 2026</strong>, at Angeles City, Pampanga, by and between:</p>
+  <div class="names-block">
+    <p><strong>MARY MARJORIE D. DUMLAO, RCE, RMP, SO-2</strong><br>Of legal age and sound mind, Filipino, residing at 356 Jose Abad Santos St., Mabato, Pulungbulo, City of San Fernando, Pampanga</p>
+    <p style="text-align:center;font-style:italic;margin:6px 0;">—and—</p>
+    <p><strong>VENCER G. PASCUAL, RCE, PE-1, SO-2</strong><br>Of legal age and sound mind, Filipino, residing at Partida, Bulusukan, San Ildefonso, Bulacan</p>
+    <p style="font-style:italic;font-size:10px;color:#8aaa78;margin-top:8px;">Hereinafter referred to collectively as the "PARTNERS."</p>
+  </div>
+
+  <div class="section-title">Witnesseth</div>
+  <ul>
+    <li>WHEREAS, the PARTNERS first established connection on <strong>December 1, 2025</strong>;</li>
+    <li>WHEREAS, the PARTNERS personally met on <strong>December 6, 2025</strong>;</li>
+    <li>WHEREAS, on <strong>December 19, 2025</strong>, mutual intention to pursue the RELATIONSHIP was formally established;</li>
+    <li>WHEREAS, integration with respective families: <strong>December 23, 2025</strong> (Vencer's) and <strong>January 10, 2026</strong> (Marjorie's);</li>
+    <li>WHEREAS, the foundation has been surveyed, tested, and proven stable;</li>
+  </ul>
+  <p><em>NOW, THEREFORE, the PARTNERS hereby agree as follows:</em></p>
+
+  <hr><h3>Article 1 · Contract Documents</h3><p>All records, logs, conversations, memories, and shared experiences relating to the RELATIONSHIP.</p>
+  <hr><h3>Article 2 · Management</h3><p>The PARTNERS shall jointly manage the RELATIONSHIP as equal contributors. Neither party shall diminish the independence, identity, or individuality of the other.</p>
+  <hr><h3>Article 3 · Scope of Work</h3><p>The PARTNERS agree to build, maintain, and continuously improve the RELATIONSHIP through: honest communication, emotional presence, shared experiences, and family integration. The RELATIONSHIP shall remain a space where both individuals are allowed to stay whole.</p>
+  <hr><h3>Article 4 · General Requirements</h3><p>Each PARTNER shall provide effort, time, and emotional presence. Regular communication and feedback shall be maintained. Growth — individual and shared — shall be supported.</p>
+  <hr><h3>Article 5 · Quality Control</h3><p>Governed by: Care, Honesty, Patience, Respect, Understanding, and Emotional safety. <em>A gentle and patient kind of love — one that grows over time, without force or pressure.</em></p>
+  <hr><h3>Article 6 · Remedial Works</h3><p>In the event of conflict: open and respectful communication, direct resolution, prioritizing understanding and repair. <em>We choose to fix things together — not walk away from them, babe.</em></p>
+  <hr><h3>Article 7 · Time and Duration</h3><p>Commences <strong>May 1, 2026</strong> and remains in effect for an <strong>indefinite duration</strong>. The absence of a completion date is replaced by a commitment to continue choosing each other — again and again, through time, babe.</p>
+  <hr><h3>Article 8 · Changes in Work</h3><p>Modifications may be introduced at any time, provided mutually agreed upon, and aim to enhance, not compromise, the RELATIONSHIP.</p>
+  <hr><h3>Article 9 · Responsibilities</h3><p>Each PARTNER shall act in good faith, provide support, maintain respect, and protect the integrity of the RELATIONSHIP.</p>
+  <hr><h3>Article 10 · Events of Default</h3><p>Default includes: failure to communicate, emotional withdrawal without explanation, or neglect of agreed responsibilities.</p>
+  <hr><h3>Article 11 · Effects of Default</h3><p>Honest communication shall be initiated. Responsibility acknowledged. Restoration attempted. The intent shall always be repair, not termination.</p>
+  <hr><h3>Article 12 · Final Acceptance</h3><p>I hope you feel loved around me, babe. I hope this relationship never asks you to shrink, change, or lose yourself just to stay. I hope we continue choosing each other — not just now, but again and again.<br><br>And more than anything, <em>I hope I become the kind of love you never have to heal from.</em></p>
+
+  <div class="sig-section">
+    <div style="text-align:center;font-size:9px;text-transform:uppercase;letter-spacing:0.14em;color:#8aaa78;font-weight:600;">· In Witness Whereof · Signatories ·</div>
+    <div class="sig-grid">
+      <div class="sig-box">
+        <div class="sig-name">Mary Marjorie D. Dumlao</div>
+        ${sig1Img}
+        <div class="sig-accepted">Signed with love ♡</div>
+        <div class="sig-date">${sig1Date}</div>
+        <div class="sig-role">The Girlfriend</div>
+      </div>
+      <div class="sig-box">
+        <div class="sig-name">Vencer G. Pascual</div>
+        ${sig2Img}
+        <div class="sig-accepted">Signed with love ♡</div>
+        <div class="sig-date">${sig2Date}</div>
+        <div class="sig-role">The Boyfriend</div>
+      </div>
+    </div>
+    <div class="both-accepted">♡ &nbsp; Officially yours, babe &nbsp; ♡<span class="both-sub">Contract accepted by both parties · May 1, 2026</span></div>
+  </div>
+  </body></html>`);
+  printWin.document.close();
+  setTimeout(()=>{ printWin.focus(); printWin.print(); }, 600);
+}
+</script>
+</body>
+</html>
